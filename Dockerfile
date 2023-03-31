@@ -56,6 +56,7 @@ RUN mkdir -p usr/bin &&\
 # copy makemkv files into the appdir
 ARG SEARCH_PATH="usr/bin"
 RUN find "/$SEARCH_PATH" -type f | grep "makemkv" | xargs -d '\n' -I ? cp ? "$SEARCH_PATH"
+RUN find "/$SEARCH_PATH" -type f | grep "mmgplsrv" | xargs -d '\n' -I ? cp ? "$SEARCH_PATH"
 ARG SEARCH_PATH="usr/lib"
 RUN find "/$SEARCH_PATH" -type f | grep "makemkv" | xargs -d '\n' -I ? cp ? "$SEARCH_PATH"
 ARG SEARCH_PATH="usr/share/applications"
@@ -77,6 +78,7 @@ RUN find "/$SEARCH_PATH" -type f | grep "makemkv" | xargs -d '\n' -I ? cp ? "$SE
 RUN linuxdeployqt-continuous-x86_64.AppImage --appimage-extract-and-run \
     usr/share/applications/makemkv.desktop \
     -executable=usr/bin/makemkvcon \
+    -executable=usr/bin/mmgplsrv \
     -appimage \
     -qmake="/opt/qt515/bin/qmake" \
     -exclude-libs="**/libgmodule-2.0.so*" \
