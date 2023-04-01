@@ -1,6 +1,6 @@
 # makemkv-appimage
 This repository is for building AppImages of MakeMKV for Linux.
-Built on Ubuntu 18.04, so it should run on any Ubuntu distribution that is the same or newer.
+The AppImage is built in an Ubuntu 18.04 based image, so it should run on any Ubuntu distribution that is the same or newer.
 It is confirmed to work on 22.04.
 As of now, only x86_64 processor architecture is supported.
 Pre-built AppImages can be downloaded from the releases, but they can also be built using the repository code.
