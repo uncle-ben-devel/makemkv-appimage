@@ -12,4 +12,4 @@ BUILD_ARTIFACT_EXTRACTION_CONTAINER_NAME="makemkv-artifact-extraction-container"
 docker create --name "$BUILD_ARTIFACT_EXTRACTION_CONTAINER_NAME" makemkv-docker-build
 docker cp "$BUILD_ARTIFACT_EXTRACTION_CONTAINER_NAME":/build-artifacts "$SCRIPT_DIR"
 docker rm "$BUILD_ARTIFACT_EXTRACTION_CONTAINER_NAME"
-docker system prune --force
+docker system prune

@@ -12,34 +12,34 @@ RUN add-apt-repository ppa:beineri/opt-qt-5.15.2-bionic &&\
     qt515base \
     patchelf binutils desktop-file-utils xz-utils file
 
+ARG MAKEMKV_VERSION="1.17.6" 
 # build and install makemkv libraries
 ARG LIBRARY_BUILD_DIRECTORY="/build/libraries"
-ARG LIBRARY_ARCHIVE_NAME="makemkv-oss-1.17.3"
+ARG LIBRARY_ARCHIVE_NAME="makemkv-oss-$MAKEMKV_VERSION"
 WORKDIR "$LIBRARY_BUILD_DIRECTORY"
 RUN wget "https://www.makemkv.com/download/$LIBRARY_ARCHIVE_NAME.tar.gz" &&\
     tar -xzf *.tar.gz
 WORKDIR "$LIBRARY_BUILD_DIRECTORY/$LIBRARY_ARCHIVE_NAME"
 RUN ./configure &&\
-    make &&\
-    make install
+    make -j$(nproc --all) &&\
+    make -j$(nproc --all) install
 
 # build and install makemkv binaries
 ARG BINARY_BUILD_DIRECTORY="/build/binaries"
-ARG BINARY_ARCHIVE_NAME="makemkv-bin-1.17.3"
+ARG BINARY_ARCHIVE_NAME="makemkv-bin-$MAKEMKV_VERSION"
 WORKDIR "$BINARY_BUILD_DIRECTORY"
 RUN wget "https://www.makemkv.com/download/$BINARY_ARCHIVE_NAME.tar.gz" &&\
     tar -xzf *.tar.gz
 WORKDIR "$BINARY_BUILD_DIRECTORY/$BINARY_ARCHIVE_NAME"
 RUN echo "export EULA_AGREED=yes" > src/ask_eula.sh
-RUN make &&\
-    make install
+RUN make -j$(nproc --all) &&\
+    make -j$(nproc --all) install
     
 # get linuxdeployqt
 ARG APPIMAGE_BUILD_DIRECTORY="/build/appimage"
 WORKDIR /usr/bin
 RUN wget "https://github.com/probonopd/linuxdeployqt/releases/download/8/linuxdeployqt-continuous-x86_64.AppImage" &&\
     chmod +x linuxdeployqt-continuous-x86_64.AppImage
-
 
 # create appdir
 WORKDIR "$APPIMAGE_BUILD_DIRECTORY"
