@@ -12,7 +12,7 @@ RUN add-apt-repository ppa:beineri/opt-qt-5.15.2-bionic &&\
     qt515base \
     patchelf binutils desktop-file-utils xz-utils file
 
-ARG MAKEMKV_VERSION="1.17.6" 
+ARG MAKEMKV_VERSION="1.18.3" 
 # build and install makemkv libraries
 ARG LIBRARY_BUILD_DIRECTORY="/build/libraries"
 ARG LIBRARY_ARCHIVE_NAME="makemkv-oss-$MAKEMKV_VERSION"
