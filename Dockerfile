@@ -1,4 +1,4 @@
-FROM amd64/ubuntu:18.04
+FROM amd64/ubuntu:22.04
 
 ENV DEBIAN_FRONTEND noninteractive
 # depends for makemkv and general use
@@ -7,10 +7,14 @@ RUN apt-get update && apt-get install -y \
     wget software-properties-common
     
 # depends for linuxdeployqt    
-RUN add-apt-repository ppa:beineri/opt-qt-5.15.2-bionic &&\
-    apt update && apt install -y \
-    qt515base \
-    patchelf binutils desktop-file-utils xz-utils file
+RUN apt update && apt install -y \
+    qt5-qmake patchelf binutils desktop-file-utils xz-utils file
+
+# get linuxdeployqt
+ARG APPIMAGE_BUILD_DIRECTORY="/build/appimage"
+WORKDIR /usr/bin
+RUN wget "https://github.com/probonopd/linuxdeployqt/releases/download/11/linuxdeployqt-continuous-x86_64.AppImage" &&\
+    chmod +x linuxdeployqt-continuous-x86_64.AppImage
 
 ARG MAKEMKV_VERSION="1.18.3" 
 # build and install makemkv libraries
@@ -34,12 +38,6 @@ WORKDIR "$BINARY_BUILD_DIRECTORY/$BINARY_ARCHIVE_NAME"
 RUN echo "export EULA_AGREED=yes" > src/ask_eula.sh
 RUN make -j$(nproc --all) &&\
     make -j$(nproc --all) install
-    
-# get linuxdeployqt
-ARG APPIMAGE_BUILD_DIRECTORY="/build/appimage"
-WORKDIR /usr/bin
-RUN wget "https://github.com/probonopd/linuxdeployqt/releases/download/8/linuxdeployqt-continuous-x86_64.AppImage" &&\
-    chmod +x linuxdeployqt-continuous-x86_64.AppImage
 
 # create appdir
 WORKDIR "$APPIMAGE_BUILD_DIRECTORY"
@@ -80,7 +78,7 @@ RUN linuxdeployqt-continuous-x86_64.AppImage --appimage-extract-and-run \
     -executable=usr/bin/makemkvcon \
     -executable=usr/bin/mmgplsrv \
     -appimage \
-    -qmake="/opt/qt515/bin/qmake" \
+    -qmake="/usr/bin/qmake" \
     -exclude-libs="**/libgmodule-2.0.so*" \
     -verbose=2
 
