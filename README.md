@@ -7,10 +7,7 @@ Pre-built AppImages can be downloaded from the releases, but they can also be bu
 
 # Using makemkv-appimage
 To use the build system, docker and bash need to be available.
-Installation on Ubuntu:
-```
-sudo apt-get install -y docker.io
-```
+Installation of docker can be found [here](https://docs.docker.com/engine/install)
 Then the build script needs to be executed.
 ```
 ./build.sh
